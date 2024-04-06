@@ -1,0 +1,25 @@
+/* h1 {
+ text-align: center;
+ color: gray;
+ font-family: Verdana, sans-serif;
+}
+
+#input, #input2 {
+    align-items: center;
+    text-align: center;
+    color: gray;
+    font-family: Verdana, sans-serif;
+    text-decoration: bold;
+   }
+
+li {
+    list-style-type: none;
+    display: inline-block; 
+    text-align: center;
+    font-family: Verdana, sans-serif;
+    border: 2px solid gray;
+    border-radius: 5px;
+    width: 500px;
+    padding: 10px;
+    margin: 5px;
+} */

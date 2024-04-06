@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        #movies {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            justify-content: space-between;
+        }
+
+        #movies li {
+            flex-basis: 22%;
+            background: #ddd;
+            margin-bottom: 4%;
+        }
+
+        #movies img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search for movies</h1>
+    <input type="text" id="myInput">
+    <button id="search">Search</button>
+    <ul id="movies"></ul>
+    <script>
+        $("#search").on("click", function() {
+            $.ajax({
+                url: 'https://www.omdbapi.com',
+                data: {
+                    s: $("#myInput").val(),
+                    apikey: 'e3de7b67'
+                },
+            success: function(response) {
+                let records = response.Search;
+                $("#movies").html('');
+                records.forEach(movie => {
+                    $("#movies").append(`
+                        <li>
+                            <h3>${movie.Title}</h3>
+                            <h4>Year: ${movie.Year}</h4>
+                            <img src="${movie.Poster}">
+                            </li>
+                    `);
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

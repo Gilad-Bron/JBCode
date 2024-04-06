@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+</head>
+<body>
+    <input type="text" id="myDate">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/he.js"></script>
+    <script>
+        flatpickr("#myDate", {
+            locale: "he",
+            enableTime: true,
+            dateFormat: "d/m/Y H:i",
+            time_24hr: true
+        });
+    </script>
+</body>
+</html>

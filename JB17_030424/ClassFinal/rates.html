@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        #movies {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            justify-content: space-between;
+        }
+
+        #movies li {
+            flex-basis: 22%;
+            background: #ddd;
+            margin-bottom: 4%;
+        }
+
+
+        #movies img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search for currencies</h1>
+    <select id="cur"></select>
+    <input type="text" id="price">
+    <button id="convert">Convert</button>
+    <h2 id="result"></h2>
+    <script>
+        $.ajax({
+            url: 'https://v6.exchangerate-api.com/v6/7bfce704cf5940ceb1d637c1/latest/USD',
+            success: function(response) {
+                const rates = response.conversion_rates;
+
+                for (key in rates) {
+                    $("#cur").append(`<option value="${rates[key]}">${key}</option>`);
+                }
+            }
+        });
+
+        $("#convert").on("click", function() {
+            let price = $("#price").val();
+            let rate = $("#cur").val();
+            let result = price * rate;
+            $("#result").html(result.toFixed(2));
+        });
+    </script>
+</body>
+</html>
