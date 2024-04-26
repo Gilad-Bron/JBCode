@@ -1,5 +1,10 @@
+
 body {
     background-image: url("images/tile.jpg");
+}
+
+#main {
+    margin: 0px 20px;
 }
 
 .anton-regular {
@@ -40,20 +45,36 @@ header {
     width: 400px;
 }
 
+#taskList {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
 #taskListContainer {
     padding: 10px;
-    max-width: 75%;
+    max-width: 1200px;
+}
+
+#upperSection {
+    max-width: 750px;
+    margin: 0px auto;
 }
 
 #addTaskForm {
     padding: 10px;
-    max-width: 50%;
     background-image: url("images/formbg.jpg");
 }
 
 #addTaskForm h2 {
     font-family: "Anton", sans-serif;
     color: royalblue;
+}
+
+#taskCard {
+    margin: 0 auto;
+}
+.taskCard {
+    padding-left: 50px;
 }
 
 .formBtns {
@@ -73,12 +94,13 @@ header {
 
 .card-img-overlay {
     text-align: left;
-    margin: 20px;
-    margin-top: 50px;
-    padding: 20px;
-    overflow-y: scroll;
-    max-width: 75%;
-    max-height: 75%;
+    margin: 45px 45px 40px 20px;
+}
+
+.card-scroll-box {
+    overflow-y: auto;
+    max-height: 190px;
+    margin-bottom: 16px;
 }
 
 .card-img-overlay h4 {
@@ -90,18 +112,18 @@ header {
     font-weight: bold;
 }
 
-.card-img-overlay {
+.animate-fade-in {
     animation-name: fadeIn;
     animation-duration: 2s;
     animation-iteration-count: 1;
 }
 
-.card-img-overlay::-webkit-scrollbar {
+.card-scroll-box::-webkit-scrollbar {
     width: 5px;
     background-color: black;
 }
 
-.card-img-overlay::-webkit-scrollbar-thumb {
+.card-scroll-box::-webkit-scrollbar-thumb {
     background: darkorange;
 }
 
