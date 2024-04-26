@@ -1,0 +1,115 @@
+body {
+    background-image: url("images/tile.jpg");
+}
+
+.anton-regular {
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: black;
+}
+
+.input {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid royalblue;
+    max-width: 75%;
+    width: 400px;
+}
+
+.center {
+    text-align: center;
+    padding: 10px;
+    max-width: 75%;
+}
+
+header {
+    text-align: center;
+    padding: 10px;
+    max-width: 75%;
+}
+
+#taskDescContainer {
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+#taskDesc {
+    height: 150px;
+    width: 400px;
+}
+
+#taskListContainer {
+    padding: 10px;
+    max-width: 75%;
+}
+
+#addTaskForm {
+    padding: 10px;
+    max-width: 50%;
+    background-image: url("images/formbg.jpg");
+}
+
+#addTaskForm h2 {
+    font-family: "Anton", sans-serif;
+    color: royalblue;
+}
+
+.formBtns {
+    color: royalblue;
+    font-family: "Anton", sans-serif;
+    border: 2px solid royalblue;
+    border-radius: 10px;
+    background: white;
+}
+
+.cardBtns {
+    color: darkorange;
+    font-family: "Anton", sans-serif;
+    border: none;
+    background: none;
+}
+
+.card-img-overlay {
+    text-align: left;
+    margin: 20px;
+    margin-top: 50px;
+    padding: 20px;
+    overflow-y: scroll;
+    max-width: 75%;
+    max-height: 75%;
+}
+
+.card-img-overlay h4 {
+    font-family: "Anton", sans-serif;
+    color: darkorange;
+}
+
+.card-img-overlay .taskDateTime {
+    font-weight: bold;
+}
+
+.card-img-overlay {
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+}
+
+.card-img-overlay::-webkit-scrollbar {
+    width: 5px;
+    background-color: black;
+}
+
+.card-img-overlay::-webkit-scrollbar-thumb {
+    background: darkorange;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
