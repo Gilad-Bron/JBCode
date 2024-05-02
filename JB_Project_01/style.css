@@ -1,12 +1,47 @@
+/* Coloris settings */
+/* .clr-picker {
+    display: flex;
+    width: 400px;
+    border: 2px solid royalblue;
+    border-radius: 10px;
+    background-color: white;
+    direction: ltr;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    position: sticky;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.clr-close {
+    display: block;
+    margin-right: auto;
+    margin-left: 5px;
+}
+
+.clr-clear {
+    display: block;
+    margin-left: auto;
+    margin-right: 5px;   
+} */
+
 
 body {
     background-image: url("images/tile.jpg");
 }
 
-#main {
+.main {
     margin: 0px 20px;
 }
-
+.grechen-fuemen-regular {
+    font-family: "Grechen Fuemen", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: black;
+  }
+  
 .anton-regular {
     font-family: "Anton", sans-serif;
     font-weight: 400;
@@ -16,7 +51,7 @@ body {
 
 .input {
     margin: 10px;
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
     border: 2px solid royalblue;
     max-width: 75%;
@@ -29,19 +64,22 @@ body {
     max-width: 75%;
 }
 
-header {
+.header {
+    font-family: "Grechen Fuemen", cursive;
+    font-size: 70px;
+    font-weight: bolder;
     text-align: center;
     padding: 10px;
     max-width: 75%;
 }
 
 #taskDescContainer {
-    height: 150px;
+    height: 100px;
     margin-bottom: 20px;
 }
 
 #taskDesc {
-    height: 150px;
+    height: 100px;
     width: 400px;
 }
 
@@ -63,11 +101,15 @@ header {
 #addTaskForm {
     padding: 10px;
     background-image: url("images/formbg.jpg");
+    border-radius: 10px;
 }
 
 #addTaskForm h2 {
     font-family: "Anton", sans-serif;
     color: royalblue;
+    background: white;
+    border-radius: 10px;
+    border: 5px solid #dc353bab;
 }
 
 #taskCard {
@@ -78,18 +120,27 @@ header {
 }
 
 .formBtns {
-    color: royalblue;
+    color: white;
     font-family: "Anton", sans-serif;
-    border: 2px solid royalblue;
-    border-radius: 10px;
-    background: white;
+    border-radius: 5px;
+    background: royalblue;
+    padding: 5px 20px
 }
 
 .cardBtns {
-    color: darkorange;
+    text-align: right;
+    display: none;
+}
+
+#taskCard :hover .cardBtns {
+    display: block;
+}
+
+.cardTitle {
     font-family: "Anton", sans-serif;
-    border: none;
-    background: none;
+    color: darkorange;
+    text-align: left;
+
 }
 
 .card-img-overlay {
@@ -106,6 +157,7 @@ header {
 .card-img-overlay h4 {
     font-family: "Anton", sans-serif;
     color: darkorange;
+    text-align: left;
 }
 
 .card-img-overlay .taskDateTime {
