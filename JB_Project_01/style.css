@@ -107,6 +107,11 @@ body {
     visibility: visible;
 }
 
+.doneTask * {
+    text-decoration: line-through;
+    color: grey;
+}
+
 .editBtns,
 .deleteBtns {
     display: inline-block;

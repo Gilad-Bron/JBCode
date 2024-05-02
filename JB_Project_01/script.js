@@ -1,4 +1,38 @@
-// DOM elements and constants
+
+class Task {
+	constructor(id, taskTitle, taskDesc, taskDateTime, isDone) {
+		this.id = id;
+		this.taskTitle = taskTitle;
+		this.taskDesc = taskDesc;
+		this.taskDateTime = taskDateTime;
+		this.isDone = isDone
+	}
+
+	render(shouldFade) {
+		return `
+      <div class="col-sm-12 col-md-6 col-xl-3 taskCard ${this.isDone ? "doneTask": ""}">
+          <div class="card bg-transparent border-0 text-black ${shouldFade ? "animate-fade-in" : ""}" style="width: 20rem;">
+              <img src="images/notebg.png" class="card-img">
+              <div class="card-img-overlay">
+                <div class="cardBtns">
+                  	<i data-id="${this.id}" class="editBtns fa-solid fa-pen-to-square fa-lg"></i>
+                  	<i data-id="${this.id}" class="deleteBtns fa-solid fa-square-xmark fa-lg"></i>
+                </div>
+                  <div class="cardTitle"><h4>${this.taskTitle}</h4></div>
+                <div class="card-scroll-box">
+                    <p class="card-text ">${this.taskDesc}</p>
+                </div>
+                <p class="card-text taskDateTime">${this.taskDateTime}</p>
+              </div>
+          </div>
+      </div> 
+      `
+	}
+
+	markAsDone() {
+		this.isDone = true;
+	}
+}
 
 let firstRun = true;
 
@@ -23,30 +57,15 @@ keysArray.forEach((key) => {
 	DOMMap[key] = document.querySelector(`.${key}`);
 })
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+const tasksArray = JSON.parse(localStorage.getItem("tasks")) || [];
+
+let taskInstances = tasksArray.map((task, i) => new Task(i, task.taskTitle, task.taskDesc, task.taskDateTime));
 
 const displayTasks = (isNewTask) => {
 	DOMMap.taskList.innerHTML = "";
-	tasks.forEach((e, i) => {
-		const shouldFade = (isNewTask && i === tasks.length - 1) || firstRun;
-		DOMMap.taskList.innerHTML += `
-      <div class="col-sm-12 col-md-6 col-xl-3 taskCard">
-          <div class="card bg-transparent border-0 text-black ${shouldFade ? "animate-fade-in" : ""}" style="width: 20rem;">
-              <img src="images/notebg.png" class="card-img">
-              <div class="card-img-overlay">
-                <div class="cardBtns">
-                  	<i data-id="${i}" class="editBtns fa-solid fa-pen-to-square fa-lg"></i>
-                  	<i data-id="${i}" class="deleteBtns fa-solid fa-square-xmark fa-lg"></i>
-                </div>
-                  <div class="cardTitle"><h4>${e.taskTitle}</h4></div>
-                <div class="card-scroll-box">
-                    <p class="card-text ">${e.taskDesc}</p>
-                </div>
-                <p class="card-text taskDateTime">${e.taskDateTime}</p>
-              </div>
-          </div>
-      </div> 
-      `
+	taskInstances.forEach((task, i) => {
+		const shouldFade = (isNewTask && i === taskInstances.length - 1) || firstRun;
+		DOMMap.taskList.innerHTML += task.render(shouldFade)
 	});
 	firstRun = false;
 }
@@ -62,14 +81,10 @@ const bindClickHandlers = () => {
 			});
 			return;
 		}
-		const task = {
-			taskTitle: DOMMap.taskTitle.value,
-			taskDesc: DOMMap.taskDesc.value,
-			taskDateTime: DOMMap.taskDateTime.value,
-		};
-		tasks.push(task);
-		console.log(tasks);
-		localStorage.setItem("tasks", JSON.stringify(tasks));
+		const task = new Task(taskInstances.length, DOMMap.taskTitle.value, DOMMap.taskDesc.value, DOMMap.taskDateTime.value);
+		taskInstances.push(task);
+		console.log(taskInstances);
+		localStorage.setItem("tasks", JSON.stringify(taskInstances));
 		displayTasks(true);
 		DOMMap.addTaskForm.reset();
 	});
@@ -87,8 +102,8 @@ const bindClickHandlers = () => {
 				cancelButtonText: "Cancel",
 			}).then((result) => {
 				if (result.isConfirmed) {
-					tasks.splice(i, 1);
-					localStorage.setItem("tasks", JSON.stringify(tasks));
+					taskInstances.splice(i, 1);
+					localStorage.setItem("tasks", JSON.stringify(taskInstances));
 					displayTasks();
 				}
 			});
@@ -97,14 +112,14 @@ const bindClickHandlers = () => {
 			DOMMap.addTaskBtn.style.display = "none";
 			DOMMap.saveChangesBtn.style.display = "inline";
 			DOMMap.cancelChangesBtn.style.display = "inline";
-			DOMMap.taskTitle.value = tasks[i].taskTitle;
-			DOMMap.taskDesc.value = tasks[i].taskDesc;
-			DOMMap.taskDateTime.value = tasks[i].taskDateTime;
+			DOMMap.taskTitle.value = taskInstances[i].taskTitle;
+			DOMMap.taskDesc.value = taskInstances[i].taskDesc;
+			DOMMap.taskDateTime.value = taskInstances[i].taskDateTime;
 			DOMMap.saveChangesBtn.addEventListener("click", () => {
-				tasks[i].taskTitle = DOMMap.taskTitle.value;
-				tasks[i].taskDesc = DOMMap.taskDesc.value;
-				tasks[i].taskDateTime = DOMMap.taskDateTime.value;
-				localStorage.setItem("tasks", JSON.stringify(tasks));
+				taskInstances[i].taskTitle = DOMMap.taskTitle.value;
+				taskInstances[i].taskDesc = DOMMap.taskDesc.value;
+				taskInstances[i].taskDateTime = DOMMap.taskDateTime.value;
+				localStorage.setItem("tasks", JSON.stringify(taskInstances));
 				displayTasks();
 				DOMMap.addTaskForm.reset();
 				DOMMap.addTaskBtn.style.display = "inline";
