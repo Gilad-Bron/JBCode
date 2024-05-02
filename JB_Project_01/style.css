@@ -1,33 +1,3 @@
-/* Coloris settings */
-/* .clr-picker {
-    display: flex;
-    width: 400px;
-    border: 2px solid royalblue;
-    border-radius: 10px;
-    background-color: white;
-    direction: ltr;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    position: sticky;
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.clr-close {
-    display: block;
-    margin-right: auto;
-    margin-left: 5px;
-}
-
-.clr-clear {
-    display: block;
-    margin-left: auto;
-    margin-right: 5px;   
-} */
-
-
 body {
     background-image: url("images/tile.jpg");
 }
@@ -35,6 +5,7 @@ body {
 .main {
     margin: 0px 20px;
 }
+
 .grechen-fuemen-regular {
     font-family: "Grechen Fuemen", cursive;
     font-weight: 400;
@@ -43,7 +14,8 @@ body {
   }
   
 .anton-regular {
-    font-family: "Anton", sans-serif;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
     font-weight: 400;
     font-style: normal;
     color: black;
@@ -52,7 +24,7 @@ body {
 .input {
     margin: 10px;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 2px solid royalblue;
     max-width: 75%;
     width: 400px;
@@ -73,79 +45,81 @@ body {
     max-width: 75%;
 }
 
-#taskDescContainer {
+.taskDescContainer {
     height: 100px;
     margin-bottom: 20px;
 }
 
-#taskDesc {
+.taskDesc {
     height: 100px;
     width: 400px;
 }
 
-#taskList {
+.taskList {
     max-width: 100%;
     margin: 0 auto;
 }
 
-#taskListContainer {
+.taskListContainer {
     padding: 10px;
     max-width: 1200px;
 }
 
-#upperSection {
+.upperSection {
     max-width: 750px;
     margin: 0px auto;
 }
 
-#addTaskForm {
+.addTaskForm {
     padding: 10px;
     background-image: url("images/formbg.jpg");
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
-#addTaskForm h2 {
-    font-family: "Anton", sans-serif;
+.addTaskForm h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
     color: royalblue;
     background: white;
-    border-radius: 10px;
-    border: 5px solid #dc353bab;
+    border-radius: 5px;
+    border: 3px solid royalblue;
 }
 
-#taskCard {
-    margin: 0 auto;
-}
 .taskCard {
-    padding-left: 50px;
+    margin: 0 auto;
 }
 
 .formBtns {
-    color: white;
-    font-family: "Anton", sans-serif;
+    color: royalblue;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
     border-radius: 5px;
-    background: royalblue;
-    padding: 5px 20px
+    background: white;
+    padding: 4px 24px
 }
 
 .cardBtns {
     text-align: right;
-    display: none;
+    visibility: hidden;
 }
 
-#taskCard :hover .cardBtns {
-    display: block;
+.taskCard :hover .cardBtns {
+    visibility: visible;
+}
+
+.editBtns,
+.deleteBtns {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 4px;
 }
 
 .cardTitle {
-    font-family: "Anton", sans-serif;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
     color: darkorange;
     text-align: left;
 
-}
-
-.card-img-overlay {
-    text-align: left;
-    margin: 45px 45px 40px 20px;
 }
 
 .card-scroll-box {
@@ -154,9 +128,15 @@ body {
     margin-bottom: 16px;
 }
 
+.card-img-overlay {
+    text-align: left;
+    margin: 45px 45px 40px 20px;
+}
+
 .card-img-overlay h4 {
-    font-family: "Anton", sans-serif;
-    color: darkorange;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    color: black;
     text-align: left;
 }
 
