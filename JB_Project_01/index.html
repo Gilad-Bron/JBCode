@@ -21,10 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Coloris CSS & JS (not implemented yet) -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
-    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script> -->
-    <!-- Custom CSS -->
+    <!-- Custom CSS & JS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -39,7 +36,7 @@
 
         <!-- Add Task -->
 
-        <div class="section upperSection">
+        <div class="upperSection">
             <form class="addTaskForm container-fluid">
                 <div class="row">
                     <div class="container-fluid text-center">
@@ -61,9 +58,6 @@
                         <input type="text" class="input taskDateTime" placeholder="Due on...">
                     </div>
                 </div>
-                <!-- <div class="row" id="taskColorContainer">
-                    <div class="container-fluid text-center" id="taskColor"></div>
-                </div> -->
                 <div class="row">
                     <div class="container-fluid text-center">
                         <button type="button" class="formBtns addTaskBtn">Add Task</button>
@@ -77,9 +71,21 @@
 
         <!-- Task List -->
 
-        <div class="lowerSection section">
+        <div class="lowerSection">
             <div class="taskListContainer container-fluid">
                 <div class="row text-center taskList"></div>
+            </div>
+        </div>
+
+        <!-- Completed Task List-->
+        <div class="container-fluid text-center">
+            <button type="button" class="formBtns showCompletedTasksBtn" style="display: none">Show Completed Tasks</button>
+            <button type="button" class="formBtns hideCompletedTasksBtn" style="display: none">Hide Completed Tasks</button>
+        </div>
+
+        <div class="lowerSection">
+            <div class="taskListContainer container-fluid">
+                <div class="row text-center completedTaskList" disply="none"></div>
             </div>
         </div>
 

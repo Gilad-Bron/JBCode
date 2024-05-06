@@ -55,7 +55,8 @@ body {
     width: 400px;
 }
 
-.taskList {
+.taskList,
+.completedTaskList {
     max-width: 100%;
     margin: 0 auto;
 }
@@ -98,17 +99,18 @@ body {
     padding: 4px 24px
 }
 
-.cardBtns {
+.cardBtn {
     text-align: right;
     visibility: hidden;
 }
 
-.taskCard :hover .cardBtns {
+.taskCard :hover .cardBtn {
     visibility: visible;
 }
 
-.editBtns,
-.deleteBtns {
+.editBtn,
+.deleteBtn,
+.completeBtn {
     display: inline-block;
     cursor: pointer;
     padding: 0 4px;
