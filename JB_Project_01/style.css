@@ -1,14 +1,21 @@
-
 body {
     background-image: url("images/tile.jpg");
 }
 
-#main {
+.main {
     margin: 0px 20px;
 }
 
+.grechen-fuemen-regular {
+    font-family: "Grechen Fuemen", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: black;
+  }
+  
 .anton-regular {
-    font-family: "Anton", sans-serif;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
     font-weight: 400;
     font-style: normal;
     color: black;
@@ -16,8 +23,8 @@ body {
 
 .input {
     margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 15px;
+    border-radius: 5px;
     border: 2px solid royalblue;
     max-width: 75%;
     width: 400px;
@@ -29,72 +36,90 @@ body {
     max-width: 75%;
 }
 
-header {
+.header {
+    font-family: "Grechen Fuemen", cursive;
+    font-size: 70px;
+    font-weight: bolder;
     text-align: center;
     padding: 10px;
     max-width: 75%;
 }
 
-#taskDescContainer {
-    height: 150px;
+.taskDescContainer {
+    height: 100px;
     margin-bottom: 20px;
 }
 
-#taskDesc {
-    height: 150px;
+.taskDesc {
+    height: 100px;
     width: 400px;
 }
 
-#taskList {
+.taskList {
     max-width: 100%;
     margin: 0 auto;
 }
 
-#taskListContainer {
+.taskListContainer {
     padding: 10px;
     max-width: 1200px;
 }
 
-#upperSection {
+.upperSection {
     max-width: 750px;
     margin: 0px auto;
 }
 
-#addTaskForm {
+.addTaskForm {
     padding: 10px;
     background-image: url("images/formbg.jpg");
+    border-radius: 5px;
 }
 
-#addTaskForm h2 {
-    font-family: "Anton", sans-serif;
+.addTaskForm h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
     color: royalblue;
+    background: white;
+    border-radius: 5px;
+    border: 3px solid royalblue;
 }
 
-#taskCard {
-    margin: 0 auto;
-}
 .taskCard {
-    padding-left: 50px;
+    margin: 0 auto;
 }
 
 .formBtns {
     color: royalblue;
-    font-family: "Anton", sans-serif;
-    border: 2px solid royalblue;
-    border-radius: 10px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    border-radius: 5px;
     background: white;
+    padding: 4px 24px
 }
 
 .cardBtns {
-    color: darkorange;
-    font-family: "Anton", sans-serif;
-    border: none;
-    background: none;
+    text-align: right;
+    visibility: hidden;
 }
 
-.card-img-overlay {
+.taskCard :hover .cardBtns {
+    visibility: visible;
+}
+
+.editBtns,
+.deleteBtns {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.cardTitle {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    color: darkorange;
     text-align: left;
-    margin: 45px 45px 40px 20px;
+
 }
 
 .card-scroll-box {
@@ -103,9 +128,16 @@ header {
     margin-bottom: 16px;
 }
 
+.card-img-overlay {
+    text-align: left;
+    margin: 45px 45px 40px 20px;
+}
+
 .card-img-overlay h4 {
-    font-family: "Anton", sans-serif;
-    color: darkorange;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    color: black;
+    text-align: left;
 }
 
 .card-img-overlay .taskDateTime {
