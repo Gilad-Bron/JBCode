@@ -8,7 +8,7 @@ const keysArray = [
 	"taskDesc",
 	"taskDateTime",
 	"completedOn",
-	"addTaskBtn",
+	"addTaskButton",
 	"clearFormBtn",
 	"saveChangesBtn",
 	"cancelChangesBtn",
@@ -96,7 +96,7 @@ const displayCompletedTasks = () => {
 
 const clickHandlers = () => {
 	//Add task
-	DOM.addTaskBtn.addEventListener("click", () => {
+	DOM.addTaskButton.addEventListener("click", () => {
 		if (!DOM.taskTitle.value || !DOM.taskDesc.value || !DOM.taskDateTime.value) {
 			Swal.fire({
 				icon: "error",
@@ -150,7 +150,7 @@ const clickHandlers = () => {
 
 		//Edit task
 		if (classList.contains("editBtn")) {
-			hideElements(DOM.addTaskBtn);
+			hideElements(DOM.addTaskButton);
 			showElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
 			DOM.taskTitle.value = tasks[i].taskTitle;
 			DOM.taskDesc.value = tasks[i].taskDesc;
@@ -171,7 +171,7 @@ const clickHandlers = () => {
 				localStorage.setItem("tasks", JSON.stringify(tasks));
 				displayTasks();
 				DOM.addTaskForm.reset();
-				showElements(DOM.addTaskBtn);
+				showElements(DOM.addTaskButton);
 				hideElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
 			});
 		};
@@ -190,7 +190,7 @@ const clickHandlers = () => {
 		//Cancel changes
 		DOM.cancelChangesBtn.addEventListener("click", () => {
 			DOM.addTaskForm.reset();
-			showElements(DOM.addTaskBtn);
+			showElements(DOM.addTaskButton);
 			hideElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
 		});
 	});
