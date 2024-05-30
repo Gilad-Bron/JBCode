@@ -1,4 +1,5 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = null; //JSON.parse(localStorage.getItem("tasks")) || [];
+const tasks_url = "http://localhost:5000/tasks";
 let completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
 let firstRun = true;
 const DOM = {};
@@ -96,6 +97,15 @@ const displayTasks = (isNewTask) => {
 	firstRun = false;
 };
 
+const loadTasks = (isNewTask) => {
+	fetch(tasks_url).then((res) => {
+		res.json().then((data) => {
+			tasks = data;
+			displayTasks(isNewTask);
+		})
+	})
+}
+
 const displayCompletedTasks = () => {
 	DOM.completedTaskList.innerHTML = "";
 	completedTasks.forEach((task, i) => {
@@ -122,10 +132,17 @@ const clickHandlers = () => {
 			taskDesc: DOM.taskDesc.value,
 			taskDateTime: toProperUnix(DOM.taskDateTime.value),
 		};
-		tasks.push(task);
-		localStorage.setItem("tasks", JSON.stringify(tasks));
-		displayTasks(true);
-		DOM.addTaskForm.reset();
+
+		fetch(tasks_url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(task),
+		}).then(() => {
+			loadTasks(true);
+			DOM.addTaskForm.reset();
+		})
 	});
 
 	//Changes to task (Edit, Delete, Mark as Complete)
@@ -239,7 +256,7 @@ const clickHandlers = () => {
 
 // Run on page load
 clickHandlers();
-displayTasks();
+loadTasks();
 
 
 // Todo: Reuse code for edit and delete and add buttons AKA avoid code duplication
