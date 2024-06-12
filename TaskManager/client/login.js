@@ -18,8 +18,9 @@ const routes = {
 };
 
 const login = () => {
-    const username = DOM.username.value;
-    const password = DOM.password.value;
+    const username = DOM.username.value.trim().toLowerCase();
+    const password = DOM.password.value.trim().toLowerCase();
+
     if (!username || !password) {
         alert("Please enter both username and password");
         return;
