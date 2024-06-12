@@ -1,7 +1,11 @@
-let tasks = null; //JSON.parse(localStorage.getItem("tasks")) || [];
-const tasks_url = "http://localhost:5000/tasks";
-let completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
+let tasks = [];
+let completedTasks = [];
 let firstRun = true;
+const routes = {
+	tasks: "/tasks",
+	finishTask: "/finishTask",
+	login: "/login",
+};
 const DOM = {};
 const keysArray = [
 	"addTaskForm",
@@ -21,7 +25,12 @@ const keysArray = [
 	"completeBtn",
 	"showCompletedTasksBtn",
 	"hideCompletedTasksBtn",
+	"loginForm",
+	"username",
+	"password",
+	"loginBtn",
 ];
+
 keysArray.forEach((key) => {
 	DOM[key] = document.querySelector(`.${key}`);
 });
@@ -31,15 +40,12 @@ const showElements = (...elements) => {
 		element.style.display = "inline";
 	});
 };
+
 const hideElements = (...elements) => {
 	elements.forEach((element) => {
 		element.style.display = "none";
 	});
 };
-
-if (completedTasks.length > 0) {
-	showElements(DOM.showCompletedTasksBtn);
-}
 
 const picker = flatpickr(".taskDateTime", {
 	altInput: true,
@@ -60,7 +66,7 @@ const formatDateTime = (unixTimestamp) => {
 	const hours = date.getHours();
 	const minutes = date.getMinutes();
 	return `${day.toString().padStart(2, "0")}/${month.toString().padStart(2, "0")}/${year} ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-}
+};
 
 const getTaskHTML = (task, i, shouldFade, isCompleted) => {
 	return `
@@ -86,7 +92,7 @@ const getTaskHTML = (task, i, shouldFade, isCompleted) => {
 			</div>
 		</div>
 	`
-}
+};
 
 const displayTasks = (isNewTask) => {
 	DOM.taskList.innerHTML = "";
@@ -97,14 +103,22 @@ const displayTasks = (isNewTask) => {
 	firstRun = false;
 };
 
-const loadTasks = (isNewTask) => {
-	fetch(tasks_url).then((res) => {
+const loadAllTasks = (isNewTask) => {
+	// GET response in server.js l.37
+	fetch(routes.tasks).then((res) => {
 		res.json().then((data) => {
-			tasks = data;
+			tasks = data.tasks;
+			completedTasks = data.completedTasks;
 			displayTasks(isNewTask);
-		})
-	})
-}
+			displayCompletedTasks();
+			if (completedTasks.length === 0) {
+				hideElements(DOM.showCompletedTasksBtn, DOM.hideCompletedTasksBtn);
+			} else {
+				showElements(DOM.showCompletedTasksBtn);
+			}
+		});
+	});
+};
 
 const displayCompletedTasks = () => {
 	DOM.completedTaskList.innerHTML = "";
@@ -132,22 +146,22 @@ const clickHandlers = () => {
 			taskDesc: DOM.taskDesc.value,
 			taskDateTime: toProperUnix(DOM.taskDateTime.value),
 		};
-
-		fetch(tasks_url, {
+		// POST response in server.js l.42
+		fetch(routes.tasks, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(task),
 		}).then(() => {
-			loadTasks(true);
+			loadAllTasks(true);
 			DOM.addTaskForm.reset();
-		})
+		});
 	});
 
 	//Changes to task (Edit, Delete, Mark as Complete)
 	DOM.taskList.addEventListener("click", (event) => {
-		const i = event.target.dataset.id;
+		const i = +event.target.dataset.id;
 		const classList = event.target.classList;
 
 		//Delete task
@@ -160,38 +174,49 @@ const clickHandlers = () => {
 				cancelButtonText: "Cancel",
 			}).then((result) => {
 				if (result.isConfirmed) {
-					tasks.splice(i, 1);
-					localStorage.setItem("tasks", JSON.stringify(tasks));
-					displayTasks();
+					// DELETE response in server.js l.72
+					fetch(routes.tasks, {
+						method: "DELETE",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							taskIndex: i,
+							isCompleted: false
+						}),
+					}).then(loadAllTasks);
 				}
 			});
 		}
 
-		//Edit task
+		//Edit task (requires saveChangesBtn/cancelChangesBtn below to complete editing)
 		if (classList.contains("editBtn")) {
 			hideElements(DOM.addTaskButton);
 			showElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
 			DOM.taskTitle.value = tasks[i].taskTitle;
 			DOM.taskDesc.value = tasks[i].taskDesc;
-			picker.setDate(new Date(tasks[i].taskDateTime))
+			picker.setDate(new Date(tasks[i].taskDateTime));
 			currentlyEditingIndex = i;
 		}
 
 		//Mark task as complete
 		if (classList.contains("completeBtn")) {
-			tasks[i].completedOn = Date.now();
-			completedTasks.push(tasks[i]);
-			tasks.splice(i, 1);
-			localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
-			localStorage.setItem("tasks", JSON.stringify(tasks));
-			showElements(DOM.showCompletedTasksBtn);
-			displayTasks();
+			// POST response in server.js l.51
+			fetch(routes.finishTask, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					taskIndex: i,
+				}),
+			}).then(loadAllTasks);
 		}
 	});
 
-	//Delete task from completed tasklist
+	//Delete task from completed tasklist 
 	DOM.completedTaskList.addEventListener("click", (event) => {
-		i = event.target.dataset.id;
+		const i = +event.target.dataset.id;
 		Swal.fire({
 			title: "Are you sure you want to delete this task?",
 			showCancelButton: true,
@@ -200,17 +225,22 @@ const clickHandlers = () => {
 			cancelButtonText: "Cancel",
 		}).then((result) => {
 			if (result.isConfirmed) {
-				completedTasks.splice(i, 1);
-				localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
-				displayCompletedTasks();
-				if (completedTasks.length === 0) {
-					hideElements(DOM.showCompletedTasksBtn, DOM.hideCompletedTasksBtn);
-				}
+				// DELETE response in server.js l.72
+				fetch(routes.tasks, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						taskIndex: i,
+						isCompleted: true
+					}),
+				}).then(loadAllTasks);
 			}
 		});
 	});
 
-	//Other buttons
+	// Save/Cancel edit changes
 	DOM.saveChangesBtn.addEventListener("click", () => {
 		if (!DOM.taskTitle.value || !DOM.taskDesc.value || !DOM.taskDateTime.value) {
 			Swal.fire({
@@ -224,12 +254,29 @@ const clickHandlers = () => {
 		tasks[currentlyEditingIndex].taskTitle = DOM.taskTitle.value;
 		tasks[currentlyEditingIndex].taskDesc = DOM.taskDesc.value;
 		tasks[currentlyEditingIndex].taskDateTime = toProperUnix(DOM.taskDateTime.value);
-		localStorage.setItem("tasks", JSON.stringify(tasks));
-		displayTasks();
-		DOM.addTaskForm.reset();
-		showElements(DOM.addTaskButton);
-		hideElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
-		currentlyEditingIndex = null;
+
+		const updatedTask = {
+			taskTitle: tasks[currentlyEditingIndex].taskTitle,
+			taskDesc: tasks[currentlyEditingIndex].taskDesc,
+			taskDateTime: tasks[currentlyEditingIndex].taskDateTime,
+		};
+		// PUT response in server.js l.62
+		fetch(routes.tasks, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				updatedTask: updatedTask,
+				taskIndex: currentlyEditingIndex,
+			}),
+		}).then(() => {
+			DOM.addTaskForm.reset();
+			showElements(DOM.addTaskButton);
+			hideElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
+			currentlyEditingIndex = null;
+			loadAllTasks();
+		});
 	});
 
 	DOM.cancelChangesBtn.addEventListener("click", () => {
@@ -238,10 +285,7 @@ const clickHandlers = () => {
 		hideElements(DOM.saveChangesBtn, DOM.cancelChangesBtn);
 	});
 
-	DOM.clearFormBtn.addEventListener("click", () => {
-		DOM.addTaskForm.reset();
-	});
-
+	// Show/hide completed tasks buttons 
 	DOM.showCompletedTasksBtn.addEventListener("click", () => {
 		displayCompletedTasks();
 		DOM.completedTaskList.style.display = "flex";
@@ -252,12 +296,14 @@ const clickHandlers = () => {
 		showElements(DOM.showCompletedTasksBtn);
 		hideElements(DOM.completedTaskList, DOM.hideCompletedTasksBtn);
 	});
+
+	// Clear form
+	DOM.clearFormBtn.addEventListener("click", () => {
+		DOM.addTaskForm.reset();
+	});
 };
 
 // Run on page load
+
 clickHandlers();
-loadTasks();
-
-
-// Todo: Reuse code for edit and delete and add buttons AKA avoid code duplication
-// Todo: Duplicate Task
+loadAllTasks();
