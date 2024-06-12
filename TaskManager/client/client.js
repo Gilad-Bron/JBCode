@@ -2,9 +2,9 @@ let tasks = [];
 let completedTasks = [];
 let firstRun = true;
 const routes = {
-	tasks: "http://localhost:5000/tasks",
-	finishTask: "http://localhost:5000/finishTask",
-	login: "http://localhost:5000/login",
+	tasks: "/tasks",
+	finishTask: "/finishTask",
+	login: "/login",
 };
 const DOM = {};
 const keysArray = [
