@@ -2,7 +2,7 @@ const DOM = {
     taskTitle: document.querySelector("#title"),
     taskDue: document.querySelector("#due"),
     addTaskBtn: document.querySelector("#addTaskBtn"),
-    tasksView: document.querySelector("#tasks"),
+    tasksView: document.querySelector("#tasksView"),
     addTaskForm: document.querySelector("#addTaskForm"),
     deleteBtns: document.querySelectorAll(".deleteBtns"),
 }
@@ -31,6 +31,7 @@ const fetchTasks = () => {
     });
 };
 
+fetchTasks();
 
 // Click Handlers
 
@@ -45,50 +46,31 @@ DOM.addTaskBtn.addEventListener("click", () => {
             title: DOM.taskTitle.value,
             due: DOM.taskDue.value,
         })
-    }).then(res => res.json()).then(tasks => {
-        tasks.forEach(task => {
-            DOM.tasksView.innerHTML = `
-                <tr>
-                    <td>${task.ID}</td>
-                    <td>${task.title}</td>
-                    <td>${task.due}</td>
-                    <td>${task.is_done}</td>
-                    <td>
-                        <button class="delete" data-id="${task.ID}">Delete</button>
-                    </td>
-                </tr>    
-            `;
-        });
-    });
+    }).then(fetchTasks);
 });
 
-
     // Delete a task
-DOM.deleteBtns.forEach(deleteBtn => {
-    deleteBtn.addEventListener("click", () => {
+DOM.tasksView.addEventListener('click', (click) => {
+    if (click.target.classList.contains("deleteBtns") && confirm("Are you sure you want to delete this task?")) {
         fetch(routes.tasks, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                id: deleteBtn.getAttribute("data-id") // ***Get the ID of the task to delete from the data-id attribute***
+                id: click.target.dataset.id
             })
-        }).then(res => res.json()).then(tasks => {
-            DOM.tasksView.innerHTML = "";
-            tasks.forEach(task => {
-                DOM.tasksView.innerHTML = `
-                    <tr>
-                        <td>${task.ID}</td>
-                        <td>${task.title}</td>
-                        <td>${task.due}</td>
-                        <td>${task.is_done}</td>
-                        <td><button class="delete" data-id="${task.ID}">Delete</button></td>
-                    </tr>    
-                `
-            });
-         });
-    });
- });
+        }).then(fetchTasks);
+    }
+});
 
-
+// ***same as above but with req.params instead of req.body***
+// DOM.tasksView.addEventListener('click', (click) => {
+//     if (click.target.classList.contains('deleteBtns') && confirm('Are you sure you want to delete this task?')) {
+//         const myId = click.target.dataset.id;
+//         const route = `${routes.tasks}/${myId}`;
+//         fetch(route, {method: "DELETE"}).then(res => res.json()).then((data) => {
+//             click.target.closest("tr").remove();
+//         });
+//     };
+// });
