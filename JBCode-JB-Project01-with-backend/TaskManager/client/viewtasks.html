@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JB Project 01 - Task Manager</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- jQuery/Bootsrap CSS& JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome JS -->
+    <script src="https://kit.fontawesome.com/3d01c6f66b.js" crossorigin="anonymous"></script>
+    <!-- Flatpicker CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom CSS & JS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrap">
+            <header class="header center container-fluid">
+                <p>My Task Board</p>
+            </header>
+            <main class="main">
+                <!-- Add Task -->
+                <div class="upperSection">
+                    <form class="addTaskForm container-fluid">
+                        <div class="row">
+                            <div class="container-fluid text-center">
+                                <h2>New Task</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid text-center taskTitleContainer">
+                                <input type="text" class="input taskTitle" placeholder="Add Title...">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid text-center taskDescContainer">
+                                <textarea type="text" class="input taskDesc" placeholder="Add Description..."></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid text-center taskDateTimeContainer">
+                                <div style="display: inline-block">
+                                    <input type="text" class="input taskDateTime" placeholder="Due on...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid text-center">
+                                <button type="button" class="formBtns addTaskButton">Add Task</button>
+                                <button type="button" class="formBtns clearFormBtn">Clear Form</button>
+                                <button type="button" class="formBtns saveChangesBtn" style="display: none">Save Changes</button>
+                                <button type="button" class="formBtns cancelChangesBtn" style="display: none">Cancel Edit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Task List -->
+                <div class="lowerSection">
+                    <div class="taskListContainer container-fluid">
+                        <div class="row text-center taskList"></div>
+                    </div>
+                </div>
+                <!-- Completed Task List-->
+                <div class="container-fluid text-center">
+                    <button type="button" class="formBtns showCompletedTasksBtn" style="display: none">Show Completed Tasks</button>
+                    <button type="button" class="formBtns hideCompletedTasksBtn" style="display: none">Hide Completed Tasks</button>
+                </div>
+                <div class="lowerSection">
+                    <div class="taskListContainer container-fluid">
+                        <div class="row text-center completedTaskList" style="display: none"></div>
+                    </div>
+                </div>
+            </main>
+    </div>
+    <script src="client.js"></script>
+</body>
+</html>
