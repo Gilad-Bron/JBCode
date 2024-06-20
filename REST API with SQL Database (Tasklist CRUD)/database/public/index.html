@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- swal fire -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
-    <div id="addTaskform">
+    <form id="addTaskform">
         <h2>Add New Task</h2>
-        <input type="text" id="title" placeholder="Title">
-        <input type="date" id="due" placeholder="Due">
-        <button id="addTaskBtn">Add Task</button>
-    </div>
+        <input type="text" id="title" placeholder="Title" name="title">
+        <input type="date" id="due" placeholder="Due" name="due">
+        <button type="button" id="addTaskBtn">Add Task</button>
+        <button type="button" class="saveBtn" style="display: none;">Save</button>
+    </form>
 
     <h1>All Tasks</h1>
         <table border="1px">

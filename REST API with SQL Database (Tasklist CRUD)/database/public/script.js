@@ -5,11 +5,29 @@ const DOM = {
     tasksView: document.querySelector("#tasksView"),
     addTaskForm: document.querySelector("#addTaskForm"),
     deleteBtns: document.querySelectorAll(".deleteBtns"),
-}
+    editBtns: document.querySelectorAll(".editBtns"),
+    saveBtn: document.querySelector(".saveBtn"),
+};
 
 const routes = {
     index: '/',
     tasks: '/api/tasks',
+};
+
+let currentlyEditingID = null;
+
+// FIX
+// const showItem = (item) => {
+//     item.style.visibility = "visible";
+// };
+
+// const hideItem = (item) => {
+//     item.style.visibility = "hidden";
+// };
+
+const clearForm = () => {
+    DOM.taskTitle.value = "";
+    DOM.taskDue.value = "";
 };
 
 const fetchTasks = () => {
@@ -19,37 +37,80 @@ const fetchTasks = () => {
             DOM.tasksView.innerHTML += `
                 <tr>
                     <td>${task.ID}</td>
-                    <td>${task.title}</td>
-                    <td>${task.due}</td>
+                    <td class="title_clm">${task.title}</td>
+                    <td class="due_clm">${(task.due)}</td>
                     <td>${task.is_done}</td>
                     <td>
-                        <button class="deleteBtns" data-id="${task.ID}">Delete</button>
-                    </td>
+                        <button class="deleteBtns" data-id="${task.ID}" data-title="${task.title}" data-due="${task.due}" data-is_done="${task.is_done}">Delete</button>
+                        <button class="editBtns" data-id="${task.ID}" data-title="${task.title}" data-due="${task.due}" data-is_done="${task.is_done}">Edit</button>
                 </tr>    
             `;
         });
     });
 };
 
-fetchTasks();
-
 // Click Handlers
 
-    // Add a task
+    // Add task
 DOM.addTaskBtn.addEventListener("click", () => {
-    fetch(routes.tasks, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            title: DOM.taskTitle.value,
-            due: DOM.taskDue.value,
-        })
-    }).then(fetchTasks);
+    if (DOM.taskTitle.value === "" || DOM.taskDue.value === "") {
+        alert("Please enter a title and due date for your task.");
+        return;
+    } else {
+        console.log("---Add task: Due date is " + DOM.taskDue.value);
+        fetch(routes.tasks, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: DOM.taskTitle.value,
+                due: DOM.taskDue.value
+            })
+        }).then(fetchTasks);
+    }
+    clearForm();
 });
 
-    // Delete a task
+    // Edit task 
+DOM.tasksView.addEventListener('click', (click) => {
+    if (click.target.classList.contains("editBtns")) {
+        currentlyEditingID = click.target.dataset.id;
+        const myTitle = click.target.dataset.title;
+        const myDue = (click.target.dataset.due).toString().slice(0, 10);
+        console.log("Editing task " + currentlyEditingID + " with title " + myTitle + " and due date " + myDue);
+        DOM.taskTitle.value = myTitle;
+        DOM.taskDue.value = myDue;
+        
+        DOM.saveBtn.style.display = "block";
+        DOM.addTaskBtn.style.display = "none";
+
+        alert("You are now editing task " + currentlyEditingID + ". Please make your changes and click save when you are done.");
+    }
+});
+
+    // Save edited task
+DOM.saveBtn.addEventListener('click', () => {
+        console.log("Saving edited task " + currentlyEditingID + " with title " + DOM.taskTitle.value + " and due date " + DOM.taskDue.value);
+        fetch(routes.tasks, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: DOM.taskTitle.value,
+                due: DOM.taskDue.value,
+                id: currentlyEditingID,
+            })
+        }).then(fetchTasks);
+
+        currentlyEditingID = null;  
+        clearForm();
+        DOM.saveBtn.style.display = "none";
+        DOM.addTaskBtn.style.display = "block";
+});
+
+    // Delete task
 DOM.tasksView.addEventListener('click', (click) => {
     if (click.target.classList.contains("deleteBtns") && confirm("Are you sure you want to delete this task?")) {
         fetch(routes.tasks, {
@@ -74,3 +135,7 @@ DOM.tasksView.addEventListener('click', (click) => {
 //         });
 //     };
 // });
+
+// Initial fetch
+
+fetchTasks();

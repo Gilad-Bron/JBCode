@@ -29,7 +29,7 @@ mysqlConnection.connect((err) => { // ***Connect to the MySQL database
     if (err) {
         console.log(err);
     } else {
-        console.log(`Server is connected to the MySQL database on port ${sqlPort}`);
+        console.log(`---Server is connected to the MySQL database on port ${sqlPort}---`);
     }
 });
 
@@ -60,10 +60,22 @@ app.post(routes.tasks, (req,res) => {
     const taskTitle = req.body.title;
     const taskDue = req.body.due;
     const sql = `INSERT INTO tasks (title, due) VALUES ('${taskTitle}', '${taskDue}');`;
-
     mysqlConnection.query(sql, (error, result) => {
         res.send(result);
     })
+});
+
+app.put(routes.tasks, (req,res) => {
+    const taskTitle = req.body.title;
+    const taskDue = req.body.due;
+    const taskID = req.body.id
+    console.log("Task title: " + taskTitle + " Task due: " + taskDue + " Task ID: " + taskID);
+    const sql = `UPDATE tasks SET title = '${taskTitle}', due = '${taskDue}' WHERE id = ${taskID};`;
+
+    mysqlConnection.query(sql, (error, result) =>{
+        res.send(result);
+        console.log("Result: " + result);
+    });
 });
 
 app.delete(routes.tasks, (req,res) => {
@@ -75,7 +87,6 @@ app.delete(routes.tasks, (req,res) => {
         res.send(result);
     })
 });
-
 
 // ***same as above but with req.params instead of req.body***
 
@@ -90,5 +101,5 @@ app.delete(routes.tasks, (req,res) => {
 // Server
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`---Server is running on http://localhost:${port}---`);
 });
