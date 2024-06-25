@@ -29,6 +29,17 @@ const getTasksByProjectID = (id) => {
         success: (result) => {
             console.log('---getTasksByProjectID result---');
             console.log(result);
+            Swal.fire({
+                title: 'Tasks',
+                html: result.map((task) => {
+                    return `<p><strong>ID: ${task.ID}</strong> | Title: ${task.title} | Due Date: ${String(task.due).slice(0, 10)}</p>`;
+                }),
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonText: 'Close'
+            });
+                 
             // FIX - Cannot get the tasks to display in the taskView DOM element. Console returns error - "TypeError: Cannot set properties of undefined (setting 'display')"
             // $(`taskView[data-id="${id}"]`).style.display = 'block';
             // $(`taskView[data-id="${id}"]`).innerHTML = "";
@@ -121,7 +132,7 @@ const getProjects = () => {
                             </a>
                             <br />
                             <small>
-                                ${[project.date].toLocaleString().slice(0, 10)}
+                                ${String(project.date).slice(0, 10)}
                             </small>
                         </td>
                         <td>
