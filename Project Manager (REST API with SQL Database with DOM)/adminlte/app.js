@@ -9,7 +9,7 @@ const sqlPort = 3306;
 
 // Middleware
 
-app.use(bodyParser.json());
+app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true })); //***bodyParser.urlencoded({ extended: true }) is used to parse the incoming request bodies in a middleware before you handle it, otherwise req.body will be undefined.
 app.use(express.static(__dirname));
 app.use(cors());
 app.use(express.json());
@@ -62,10 +62,13 @@ app.get(routes.tasksByProjectID + '/:id', (req, res) =>  {
 });
 
 app.post(routes.projects, (req, res) => {
+    console.log('---POST request to /projects---')
+    console.log(req.body);
     const sql = `INSERT INTO projects (title, date) VALUES ('${req.body.title}', '${req.body.date}')`;
     mysqlConnection.query(sql, (error, result) => {
-        res.send(result);
+    res.send(result);
     });
+
 });
 
 app.delete(routes.projects + '/:id', (req, res) => {

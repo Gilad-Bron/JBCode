@@ -200,11 +200,10 @@ const addProject = () => {
     $.ajax({
         url: routes.projects,
         method: 'POST',
-        data: JSON.stringify({ 
-            title: DOM.newProjectTitle.value, 
-            date: DOM.newProjectDate.value 
-        }),
-        contentType: 'application/json',
+        data: { 
+            title: DOM.newProjectTitle.value,
+            date: DOM.newProjectDate.value,
+        },
         success: () => {
             console.log('---addProject success---');
             DOM.addProjectForm.style.display = 'none';

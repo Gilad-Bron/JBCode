@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2024 at 07:58 PM
+-- Generation Time: Jun 25, 2024 at 08:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,7 +61,8 @@ CREATE TABLE `tasks` (
 
 INSERT INTO `tasks` (`ID`, `title`, `due`, `is_done`, `project_id`) VALUES
 (21, 'Task for Proj1', '2024-06-24', 0, 12),
-(23, 'Task for Proj2', '2024-06-24', 0, 14);
+(23, 'Task for Proj2', '2024-06-24', 0, 14),
+(24, 'Another Task for Proj1', '2024-06-25', 0, 12);
 
 --
 -- Indexes for dumped tables
@@ -88,13 +89,13 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables
